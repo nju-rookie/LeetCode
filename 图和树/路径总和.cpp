@@ -17,9 +17,6 @@
         7    2  5   1
 
 
-来源：力扣（LeetCode）
-链接：https://leetcode-cn.com/problems/path-sum-ii
-著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
 /**
@@ -37,6 +34,8 @@ void dfs(TreeNode* p,int sum,vector<int>& path,vector<vector<int>>& ans);
 class Solution {
 public:
     vector<vector<int>> pathSum(TreeNode* root, int sum) {
+
+        //path用来记录路径
         vector<int> path;
         vector<vector<int>> ans;
         dfs(root,sum,path,ans);
@@ -48,13 +47,19 @@ void dfs(TreeNode* p,int sum,vector<int>& path,vector<vector<int>>& ans)
 {
     if(p == NULL)
         return;
+
+    //叶节点
     if(!p -> left&& !p -> right){
+
+        //此路径满足要求
         if(p -> val == sum){
             path.push_back(p->val);
             ans.push_back(path);
             path.pop_back();
         }
     }else{
+
+        //非叶节点，继续遍历
         path.push_back(p->val);
         if(p -> left)  dfs(p -> left,sum - p->val,path,ans);
         if(p -> right)  dfs(p -> right, sum - p->val,path,ans);
