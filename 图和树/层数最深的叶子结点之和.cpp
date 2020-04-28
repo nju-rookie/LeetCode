@@ -1,7 +1,6 @@
 /*
 给你一棵二叉树，请你返回层数最深的叶子节点的和。
 
-
 */
 
 
@@ -63,5 +62,3 @@ void dfs(TreeNode* p,int dep)
         dfs(p->right,dep+1);
     }
 }
-
-
