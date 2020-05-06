@@ -35,29 +35,48 @@ graph将会以邻接表方式给出，graph[i]表示图中与节点i相连的所
 */
 
 
+//将每一条边的两个顶点分到不同的集合中，用并查集来实现，如果遍历所有边能够实现，返回true
+//如果发现某条边的两个顶点已经在同一个集合中，返回false
 class Solution {
 public:
+
+    //union_并查集
     vector<int> union_;
+
+    //用enemy记录，enemy[i]代表i和enemy[i]不能分到同一个集合中
     vector<int> enemy;
     bool isBipartite(vector<vector<int>>& graph) {
         int n = graph.size();
         union_.resize(n);
         enemy.resize(n);
+
+        //初始化
         for(int i = 0;i < n;i++){
             union_[i] = i;
             enemy[i] = -1;
         }
+
+
         for(int i = 0;i < n;i++){
             int size = graph[i].size();
             for(int j = 0;j < size;j++){
+
+                //i和graph[i][j]不能分到同一个集合
+                //如果i暂时没有敌人，将graph[i][j]作为i的敌人，反之亦然
                 if(enemy[i] == -1)
                     enemy[i] = graph[i][j];
                 if(enemy[graph[i][j]] == -1)
                     enemy[graph[i][j]] = i;
+
+                //找到i和graph[i][j]所在集合的祖先
                 int f1 = find(i);
                 int f2 = find(graph[i][j]);
+
+                //如果二者祖先相同，返回false
                 if(f1 == f2)
                     return false;
+
+                //如果二人祖先不同，合并graph[i][j]所在集合与i的敌人所在集合
                 else
                     union_[f2] = find(enemy[i]);
             }     
